@@ -1,0 +1,122 @@
+<{include file="public/_meta"}>
+<title>店铺管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		拼多多管理 <span class="c-gray en">&gt;</span> 店铺管理 <a
+			class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a> <a href='warrant'><button>获取授权</button></a>
+	</nav>
+	<div class="pd-20">
+
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr class="groupk">
+					<th>ID</th>
+					<th>店铺名字</th>
+					<th>商品总数</th>
+					<th>code有效期</th>
+					<th>当前剩余有效期</th>
+					<th>默认运费模板</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{volist name="data" id="vs"}>
+				<tr>
+					<td><{$vs.id}></td>
+					<td><{$vs.mall_name}></td>
+					<td><{$vs.goodsnum}></td>
+					<td><{$vs.refresh_token_time}></td>
+					<td><{$vs.time>86400?ceil($vs.time/86400).'天':ceil($vs.time/3600).'小时'}></td>
+					<td><span><{$vs.cost_template_id?$vs.cost_template_id:'-'}></span>&emsp;&emsp;
+						<button class='upid'>修改</button></td>
+				</tr>
+				<{/volist}>
+			</tbody>
+		</table>
+		<br />
+
+
+
+		<div class="cl pd-5 bg-1 bk-gray mt-10 ">
+			<{$data->render()}> <span class="r mt-15">店铺总数:<strong><{$data->total()}></strong>家
+
+			</span>
+		</div>
+	</div>
+
+
+	<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">请设置默认运费模板</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id='r0'>
+						<input type='text' name="tempid">
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary upids">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+	<script>
+var id='';
+$('.upid').each(function(){
+	$(this).on('click',function(){
+		var span=$(this).parents('td').children('span');
+		 id=$(this).parents('tr').children().eq(0).text()
+		 $('.btn-primary').show()
+		 $('.modal-title').text('请设置默认运费模板')
+		 $('#r0').html('<input type="text" name="tempid">')
+		$("#modal-demo").modal("show")
+
+	})
+})
+  
+ $('.upids').on('click',function(){
+	 var v=$('input[name="tempid"]').val();
+	 $.ajax({
+		 url:'../../api/taoapi/upTempId',
+		 data:'id='+id+'&v='+v,
+		 type:'POST',
+		 success:function(a){
+			 $('.btn-primary').hide()
+			 $('.modal-title').text('')
+			 if(a==1){
+				 $('#r0').text('修改成功')
+			 }else{
+				 $('#r0').text('修改失败') 
+			 }
+		 }
+		 
+	 })
+ })
+  
+</script>
+</body>
+</html>

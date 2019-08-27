@@ -1,0 +1,228 @@
+<{include file="public/_meta"}>
+<title>商品列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		拼多多管理 <span class="c-gray en">&gt;</span> 商品列表 <a
+			class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a> <span>
+		<select id='shop' onchange="window.location.href='?shopid='+this.value"> 
+			<{volist name='shoparr' id='v'}>
+				<option value='<{$key}>'<{$key==$shop?'selected':''}>><{$v}></option>
+			<{/volist}>
+		</select></span><{include file="public/down"}>
+	</nav>
+	<div class="pd-20">
+		<div class="text-c">
+			<form action="">
+				<input type="text" class="input-text " style="width: 250px"
+					placeholder="输入商品名" id="" name="searchgoods"
+					value="<{$goodsname?$goodsname:''}>"> <input type="hidden"
+					name='shopid' value=<{$shop}>>
+				<button type="submit" class="btn btn-success" id="" name="">
+					<i class="icon-search"></i> 搜商品
+				</button>
+			</form>
+		</div>
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr class="groupk">
+					<th class="c-blue"><a
+						href='?isonsale=<{$curstate}>&catid=<{$curcat}>&searchgoods=<{$goodsname}>&shopid=<{$shop}>&order=<{$order==1?"0":"1"}>&diff=<{$diff}>&supply=<{$supply}>'>商品名字<i
+							class="Hui-iconfont"> <{$order==1?'&#xe6d5':''}></i></a></th>
+					<th><select onchange="window.location.href=this.value"
+						id='cat'> <{volist name="cat" id='v'}>
+							<option
+								value="?catid=<{$key}>&isonsale=<{$curstate}>&searchgoods=<{$goodsname}>&shopid=<{$shop}>&diff=<{$diff}>"
+								cit="<{$key}>&supply=<{$supply}>"<{$key==$curcat?'selected':''}>
+								><{$v}></option> <{/volist}>
+					</select></th>
+					<th>商品库存</th>
+					<th><select onchange="window.location.href=this.value">
+							<{volist name="sxt" id="ve"}>
+							<option
+								value="?diff=<{$ve}>&isonsale=<{$curstate}>&catid=<{$curcat}>&searchgoods=<{$goodsname}>&shopid=<{$shop}>&supply=<{$supply}>"<{$ve==$diff?'selected="selected"':""}>><{$ve=='-1'?'-':$ve}></option>
+							<{/volist}>
+					</select></th>
+					<th>市场价格</th>
+					<th>售价格</th>
+					<th><select onchange="window.location.href=this.value">
+							<{volist name="state" id='v'}>
+							<option
+								value="?isonsale=<{$key}>&catid=<{$curcat}>&searchgoods=<{$goodsname}>&shopid=<{$shop}>&diff=<{$diff}>&supply=<{$supply}>"<{$key==$curstate||($key==0&&$curstate==0)?'selected':''}>
+								><{$v}></option> <{/volist}>
+					</select></th>
+					<th>更新时间</th>
+					<th><select id='source' onchange="window.location.href='?isonsale=<{$curstate}>&catid=<{$curcat}>&searchgoods=<{$goodsname}>&shopid=<{$shop}>&diff=<{$diff}>&supply='+this.value">
+							<option
+								value='-1'<{$supply==-1?'selected="selected"':""}>>全部货源</option>
+							<option
+								value='1'<{$supply==1?'selected="selected"':""}>>淘宝货源</option>
+							<option
+								value='2'<{$supply==2?'selected="selected"':""}>>其它货源</option>
+					</select></th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{volist name='data' id='v'}>
+				<td><{$v.goods_name}></td>
+				<td><{$cat[$v.cat_id]}></td>
+				<td><{$v.goods_quantity}></td>
+				<td><{$v.difference_price==(-1)?'-':$v.difference_price}></td>
+				<td><{$v.market_price/100|number_format=###,'2','.',''}></td>
+				<td><{$v.onsale_price/100|number_format=###,'2','.',''}></td>
+				<td><{switch name='v.is_onsale'}> <{case
+					value='2'}>已下架<{/case}> <{case value='1'}>已上架<{/case}> <{case
+					value='3'}>已售罄<{/case}> <{case value='4'}>已删除<{/case}> <{case
+					value='44'}>彻底删除<{/case}> <{case value='101'}>待审核<{/case}> <{case
+					value='103'}>审核驳回<{/case}> <{/switch}></td>
+				<td><{$v.updatetime}></td>
+				<td><{$v.itemId?"<a
+					href='"."https://item.taobao.com/item.htm?id=".$v['itemId']."' >查看</a>":''}>
+				</td>
+				<td><input type="checkbox" name='s' value="<{$v.goods_id}>"></td>
+				</tr>
+				<{/volist}>
+			</tbody>
+		</table>
+		<br />
+
+		<div>
+			<button class='btn btn-secondary radius  ml-20 synchroData'>同步全部商品</button>
+			<button class='btn btn-secondary radius  ml-20 ' onClick="shelf('2')">下架商品</button>
+			<button class='btn btn-secondary radius  ml-20 ' onClick="shelf('1')">上架商品</button>
+
+			<button class='btn btn-secondary radius  ml-20  upprice'>修改价格</button>
+			<span><button class='btn btn-secondary radius  ml-20 relation'>关联全部商品</button></span>
+			<span><input type="radio" name='upprice' value='1'>+
+				&nbsp;&nbsp;<input type="radio" name='upprice' value='2' checked>*</span>
+			<span><input type='text' name='val' value='1.5' size="8"><span
+				style="font-size: 10px;">*当为加法时单位分</span></span>
+			<div style='position: relative; float: right;'>
+				<button class='btn btn-primary radius ml-20 qx'>全选</button>
+				<button class='btn btn-primary radius ml-20 fx'>反选</button>
+			</div>
+		</div>
+
+		<div class="cl pd-5 bg-1 bk-gray mt-10 ">
+			<{$data->render()}> <span class="r mt-15"> 列表总数:<strong>
+					<{$data->total()}> </strong> 条 &emsp;
+
+			</span>
+		</div>
+	</div>
+	<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title title0">同步商品记录数</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id='text0'>是否同步线上商城商品记录数？</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn_ok btn btn-primary y_synchroData">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="popup" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="title0"></h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id='textp'></p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn_ok btn btn-primary">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="synchro" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title"></h3>
+				</div>
+				<div class="modal-body">
+					<p id='wait'>同步中，请等待...</p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div id="A1" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id='A1r'></p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="su_synchro" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title"></h3>
+				</div>
+				<div class="modal-body">
+					<p id='su_txt'></p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-re" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+	<script type="text/javascript" src="<{$Think.TKP}>/js/pdd.js"></script>
+	<script>
+
+  
+ 
+  
+</script>
+</body>
+</html>

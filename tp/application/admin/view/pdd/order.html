@@ -1,0 +1,370 @@
+<{include file="public/_meta"}>
+<title>用户管理</title>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font: 12px/1.5 Arial;
+	color: #666;
+	background: #fff;
+}
+
+ul, li {
+	list-style: none;
+}
+
+img {
+	border: 0 none;
+}
+
+/*---------------------------------------demo css--------------------------------------------*/
+.date_selector, .date_selector * {
+	width: auto;
+	height: auto;
+	border: none;
+	background: none;
+	margin: 0;
+	padding: 0;
+	text-align: left;
+	text-decoration: none;
+}
+
+.date_selector {
+	background: #fbfbfb;
+	border: 1px solid #ccc;
+	padding: 10px;
+	margin: 0;
+	margin-top: -1px;
+	position: absolute;
+	z-index: 100000;
+	display: none;
+	border-radius: 3px;
+	box-shadow: 0 0 5px #aaa;
+	box-shadow: 0 2px 2px #ccc;
+	width: 220px;
+}
+
+.date_selector_ieframe {
+	position: absolute;
+	z-index: 99999;
+	display: none;
+}
+
+.date_selector .nav {
+	width: 17.5em;
+}
+
+.date_selector .nav p {
+	clear: none;
+}
+
+.date_selector .month_nav, .date_selector .year_nav {
+	margin: 0 0 3px 0;
+	padding: 0;
+	display: block;
+	position: relative;
+	text-align: center;
+}
+
+.date_selector .month_nav {
+	float: left;
+	width: 55%;
+}
+
+.date_selector .year_nav {
+	float: right;
+	width: 42%;
+	margin-right: -8px;
+}
+
+.date_selector .month_name, .date_selector .year_name {
+	font-weight: bold;
+	line-height: 20px;
+}
+
+.date_selector .button {
+	display: block;
+	position: absolute;
+	top: 0;
+	width: 18px;
+	height: 18px;
+	line-height: 16px;
+	font-weight: bold;
+	color: #5985c7;
+	text-align: center;
+	font-size: 12px;
+	overflow: hidden;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+}
+
+.date_selector .button:hover, .date_selector .button.hover {
+	background: #5985c7;
+	color: #fff;
+	cursor: pointer;
+	border-color: #3a930d;
+}
+
+.date_selector .prev {
+	left: 0;
+}
+
+.date_selector .next {
+	right: 0;
+}
+
+.date_selector table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	clear: both;
+	margin: 0;
+	width: 220px;
+}
+
+.date_selector th, .date_selector td {
+	width: 2.5em;
+	height: 2em;
+	padding: 0 !important;
+	text-align: center !important;
+	color: #666;
+	font-weight: normal;
+}
+
+.date_selector th {
+	font-size: 12px;
+}
+
+.date_selector td {
+	border: 1px solid #f1f1f1;
+	line-height: 2em;
+	text-align: center;
+	white-space: nowrap;
+	color: #5985c7;
+	background: #fff;
+}
+
+.date_selector td.today {
+	background: #eee;
+}
+
+.date_selector td.unselected_month {
+	color: #ccc;
+}
+
+.date_selector td.selectable_day {
+	cursor: pointer;
+}
+
+.date_selector td.selected {
+	background: #2b579a;
+	color: #fff;
+	font-weight: bold;
+}
+
+.date_selector td.selectable_day:hover, .date_selector td.selectable_day.hover
+	{
+	background: #5985c7;
+	color: #fff;
+}
+
+/*-----------------------------------------------------------------------------------*/
+</style>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		用户中心 <span class="c-gray en">&gt;</span> 用户列表 &emsp;<select
+			onchange="window.location.href='?shopid='+this.value" id='shop'>
+			<{volist name='shoparr' id='v'}>
+			<option value='<{$key}>'<{$key==$shop?'selected':''}>
+				><{$v}></option> <{/volist}>
+		</select> <a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+
+	<div class="pd-20  cl">
+
+		<table style="width: 100%;"
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+					<th style="width: 70px;">收件人</th>
+					<th style="width: 50px;"><select
+						onchange="window.location.href=this.value" id="urls">
+							<{volist name="confirm_status" id="v1"}>
+							<option
+								value="?confirm=<{$key}>&group=<{$group}>&order=<{$order}>&after=<{$after}>&catid=<{$catid}>"<{$key==$confirm?'selected="selected"':''}>
+								><{$v1}></option> <{/volist}>
+					</select></th>
+					<th style="width: 50px;"><select
+						onchange="window.location.href=this.value"> <{volist
+							name="group_status" id="v2"}>
+							<option
+								value="?confirm=<{$confirm}>&group=<{$key}>&order=<{$order}>&after=<{$after}>&catid=<{$catid}>&shopid=<{$shop}>"<{$key==$group?'selected="selected"':''}>
+								><{$v2}></option> <{/volist}>
+					</select></th>
+					<th style="width: 60px;"><select
+						onchange="window.location.href=this.value" style='width: 70px;'>
+							<{volist name="order_status" id="v3"}>
+							<option
+								value="?confirm=<{$confirm}>&group=<{$group}>&order=<{$key}>&after=<{$after}>&catid=<{$catid}>&shopid=<{$shop}>"<{$key==$order?'selected="selected"':''}>
+								><{$v3}></option> <{/volist}>
+					</select></th>
+					<th style="width: 60px;"><select
+						onchange="window.location.href=this.value" style='width: 70px;'>
+							<{volist name="after_sales_status" id="v3"}>
+							<option
+								value="?confirm=<{$confirm}>&group=<{$group}>&order=<{$order}>&after=<{$key}>&catid=<{$catid}>&shopid=<{$shop}>"<{$key==$after?'selected="selected"':''}>
+								><{$v3}></option> <{/volist}>
+					</select></th>
+					<th>商品名称</th>
+					<th style="width: 30px;">数量</th>
+					<th style="width: 50px;">商品金额</th>
+					<th style="width: 50px;">支付金额</th>
+					<th style="width: 120px;">付款时间</th>
+					<th style="width: 100px;"><select
+						onchange="window.location.href=this.value"> <{volist
+							name='catename' id='cat'}>
+							<option
+								value='?catid=<{$key}>&confirm=<{$confirm}>&group=<{$group}>&order=<{$order}>&after=<{$after}>&shopid=<{$shop}>'<{$key==$catid?'selected="selected"':''}>><{$cat}></option>
+							<{/volist}>
+					</select></th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{volist name='data' id='vo'}>
+				<tr>
+					<td><{$vo.receiver_name}></td>
+					<td><{switch name="vo.confirm_status"}> <{case
+						value='0'}>未成交<{/case}> <{case value='1'}>已成交<{/case}> <{case
+						value='2'}>已取消<{/case}> <{/switch}></td>
+					<td><{switch name="vo.group_status"}> <{case
+						value='0'}>拼团中<{/case}> <{case value='1'}>已成团<{/case}> <{case
+						value='2'}>团失败<{/case}> <{/switch}></td>
+					<td><{switch name="vo.order_status"}> <{case
+						value='1'}>待发货<{/case}> <{case value='2'}>待签收<{/case}> <{case
+						value='3'}>已签收<{/case}> <{/switch}></td>
+					<td><{switch name="vo.after_sales_status"}> <{case
+						value='0'}>无售后<{/case}> <{case value='2'}>买家申请退款，待商家处理<{/case}>
+						<{case value='3'}>退货退款，待商家处理<{/case}> <{case
+						value='4'}>商家同意退款，退款中<{/case}> <{case value='5'}>平台同意退款，退款中
+						<{/case}> <{case value='6'}>驳回退款， 待买家处理<{/case}> <{case
+						value='7'}>已同意退货退款,待用户发货<{/case}> <{case value='8'}>平台处理中<{/case}>
+						<{case value='9'}>平台拒绝退款，退款关闭<{/case}> <{case
+						value='10'}>退款成功<{/case}> <{case value='11'}>买家撤销<{/case}> <{case
+						value='12'}>买家逾期未处 理，退款失败<{/case}> <{case
+						value='13'}>买家逾期，超过有效期<{/case}> <{case
+						value='14'}>换货补寄待商家处理<{/case}> <{case
+						value='15'}>换货补寄待用户处理<{/case}> <{case value='16'}>换货补寄成功<{/case}>
+						<{case value='17'}>换货补寄失败<{/case}> <{case
+						value='18'}>换货补寄待用户确认完成<{/case}> <{/switch}></td>
+					<td style="overflow: hidden; text-overflow: ellipsis;"><{$goodname[$vo.order_sn]['goods_name']}></td>
+					<td><{$goodname[$vo.order_sn]['goods_count']}></td>
+					<td><{$vo.goods_amount}></td>
+					<td><{$vo.pay_amount}></td>
+					<td><{$vo.pay_time}></td>
+					<td><{$catename[$vo.cat_id]}></td>
+
+				</tr>
+				<{/volist}>
+			</tbody>
+		</table>
+		<br>
+
+		<div></div>
+
+		<div class="cl pd-5 bg-1 bk-gray mt-40">
+			<{$data->render()}> &emsp;&emsp;
+			<button class='btn btn-secondary radius getorder'>更新订单</button>
+			<span class="r" style="color: black;">共有数据：<strong id='total'><{$data->total()}></strong>
+				条
+			</span>
+		</div>
+	</div>
+	<input type="hidden" name="js" value="<{$Think.TKP}>">
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+	<!-- <iframe id="iframe" src="" style="display: none;"></iframe> -->
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+	<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title"></h3>
+				</div>
+				<div class="modal-body">
+					<p class='modal-text' style="color: black; size: 36px;">对话框内容…</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary btn-ok">确定</button>
+					<button class="btn bnt-qx" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/js/jquery.date_input.pack.js"></script>
+
+	<script>
+$(function(){
+	$('.date_picker').date_input();
+})
+
+$('.getorder').on('click',function(){
+	var id =$('#shop option:selected').val();
+	if(id==0){
+		$('.modal-text').text('请选择店铺！');
+	    $('.btn-ok').hide();
+	    $('#modal-demo').modal('show')
+	    return false;
+	}
+	$('.modal-text').html('<span">更新中,已耗时<span id="time">0</span>秒...</span>');
+    $('.btn-ok').hide();
+    $('.bnt-qx').hide();
+    $('#modal-demo').modal('show')
+    var t=0;
+    time=setInterval(function(){
+    	t++;
+    	$('#time').text(t)
+    },1000)
+    var urls=$('#urls option:selected').val();
+	$.ajax({
+		url:'getOrder',
+		data:'shop='+id,
+		type:'POST',
+		dataType:'json',
+		success:function(a){
+			clearInterval(time)
+			if(a.result==1){
+				$('.modal-text').text('更新成功!新增'+a.inc+'个订单,同步修改'+a.u+'个订单');
+			}else{
+				$('.modal-text').text('更新失败!原因：'+a.message);
+			}
+			$('.btn-ok').show();
+			$('.btn-ok').on('click',function(){//跳转
+				window.location.href=urls
+			})
+		}
+	})
+})
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<{include file="public/_meta"}>
+<title>操作折线</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		日志管理 <span class="c-gray en">&gt;</span> 日志折线 <a
+			class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a> <input type="hidden" name="user"
+			value=<{$name}>>
+	</nav>
+	<div class="pd-20">
+		<div class="btn-group">
+			<!-- <span class="btn btn-primary radius qbtn btn-default" it=''>按天</span>
+      <span class="btn btn-default radius qbtn">按月</span>
+      <span class="btn btn-default radius qbtn">三月</span> -->
+
+			<{volist name="cs" id="vs"}> <span
+				class="btn btn-default radius qbtn <{$key==$cur?'btn-primary':''}>"
+				it="<{$key}>"><{$vs}></span> <{/volist}> <select
+				onchange="window.location.href=this.value"> <{volist
+				name="user" id="vu"}>
+				<option value="?cur=<{$cur}>&name=<{$vu}>"<{$vu==$name?'selected="selected"':''}>><{$vu}></option>
+				<{/volist}>
+			</select>
+		</div>
+
+		<span class=' f-r '>操作次数(单位：次)</span>
+		<div id="main" style="width: 100%; height: 600px;"></div>
+
+
+
+
+	</div>
+
+
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+	<script type="text/javascript" src="<{$Think.TKP}>/js/echarts.min.js"></script>
+	<script>
+
+var myChart = echarts.init(document.getElementById('main'));
+option = {
+	    xAxis: {
+	        type: 'category',
+	        data: [<{$day}>]
+	    },
+	    yAxis: {
+	        type: 'value'
+	    },
+	    series: [{
+	        data: [<{$nu}>],
+	        type: 'line'
+	    }]
+	};
+
+myChart.setOption(option);
+</script>
+
+	<script type="text/javascript">
+$('.qbtn').each(function(){
+	$(this).on('click',function(){
+		var id=$(this).attr('it')
+		var name=$("input[name='user']").val()
+		window.location.href='line?cur='+id+'&name='+name
+	})
+})
+
+</script>
+
+</body>
+</html>

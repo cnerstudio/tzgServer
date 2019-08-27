@@ -1,0 +1,102 @@
+<{include file="public/_meta"}>
+<title>日志</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		日志管理 <span class="c-gray en">&gt;</span> 日志详情
+		&nbsp;&nbsp;&nbsp;&nbsp;<{include file="public/down"}>
+		<button class="ttp">显示详细</button>
+		&nbsp;&nbsp;
+		<button class="ttp">显示日历</button>
+		<a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<!--日历页  -->
+	<table id="t1" class="table table-border table-bordered">
+		<{foreach name="op" item ="y" key="ky"}>
+		<!-- 年 -->
+		<{foreach name="y" item="m" key="km"}>
+		<!-- 月 -->
+		<tr>
+			<th colspan='7' class="text-c" style="background: yellow"><{$ky}>年<{$km}>月</th>
+		</tr>
+		<tr class="text-c f-28" style="background: AliceBlue">
+			<th>星期日</th>
+			<th>星期一</th>
+			<th>星期二</th>
+			<th>星期三</th>
+			<th>星期四</th>
+			<th>星期五</th>
+			<th>星期六</th>
+		</tr>
+		<tr>
+			<{for start="0" end="$w"}>
+			<td></td> <{/for}> <{foreach name="m" item="d" key="kd"}> <{if
+			condition="($w+$kd) % 7 eq 1"}>
+		</tr>
+		<tr>
+			<{/if}>
+			<td
+				onclick="window.location.href='?user=<{$uname}>&time=<{$ky}>-<{$km}>-<{$kd}>'"
+				style="cursor: pointer"><{$km==$curmonth&&$kd==$curday?"<span
+				style='color: red'>$kd</span>":$kd}>&nbsp;&nbsp;<{$d}>
+			</td> <{/foreach}> <{php}> $r=7-($w+$kd) % 7; $w=($w+$kd) % 7; <{/php}>
+			<{for start="0" end="$r"}>
+			<td></td> <{/for}>
+		</tr>
+		<{/foreach}> <{/foreach}>
+	</table>
+	<table id="t2"
+		class="table table-border table-bordered table-striped table-bg ">
+		<thead class="text-c">
+			<tr>
+				<th class="f-16" style="width: 80px">操作代码</th>
+				<th class="f-16" style="width: 120px"><select
+					onchange="window.location.href=this.value"> <{volist
+						name='userData' id='v'}>
+						<option value="?user=<{$v}>&time=<{$time}>"<{$v==$uname?'selected':''}>><{$v}></option>
+						<{/volist}>
+				</select></th>
+				<th class="f-16">操作内容</th>
+				<th class="f-16" style="width: 120px">操作主机</th>
+				<th class="f-16">周期(min)</th>
+				<th class="f-16">条数</th>
+				<th class="f-16" style="width: 110px">系统版本</th>
+				<th class="f-16" style="width: 120px">操作时间</th>
+			</tr>
+		</thead>
+		<tbody class="text-c">
+			<{foreach name="data" item="v"}>
+			<tr>
+				<td><{$v['actioncode']}></td>
+				<td><{$v['Username']}></td>
+				<td><{$v['content']}></td>
+				<td><{$v['from']}></td>
+				<td><{$v['duration']}></td>
+				<td><{$v['num']}></td>
+				<td><{$v['version']}></td>
+				<td><{$v['time']}></td>
+			</tr>
+			<{/foreach}>
+		</tbody>
+	</table>
+	<span class="r">共有数据：<strong><{$c}></strong> 条
+	</span>
+	</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<{include file="public/_meta"}>
+<title>已买列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		已买/库存/运费 <span class="c-gray en">&gt;</span> 已买列表 <a
+			class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+					<th class="f-16 my40">序号</th>
+					<th class="f-16 my40">渠道</th>
+					<th class="f-16 " style="width: 120px">Username</th>
+					<th class="f-16 " style="width: 120px">订单编号</th>
+					<th class="f-16 " style="width: 120px">成交时间</th>
+					<th class="f-16 ">宝贝名称</th>
+					<th class="f-16 " style="width: 60px">标价</th>
+					<th class="f-16 " style="width: 50px">数量</th>
+					<th class="f-16 " style="width: 80px">交易状态</th>
+					<th class="f-16 my40">操作</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{foreach name="data" item="v"}>
+				<tr>
+					<td><{$i++}></td>
+					<td><{$v['channel']}></td>
+					<td><{$v['Username']}></td>
+					<td><a href="/<{$v['orderDetails']}>"><{$v['orderID']}></a></td>
+					<td><{$v['ctime']}></td>
+					<td><a href="/<{$v['babyDetails']}>"><{$v['babyname']}></a></td>
+					<td><{$v['price']|number_format=2}></td>
+					<td><{$v['num']}></td>
+					<td><{$v['trstatus']}></td>
+					<td><input type="checkbox" name="selectd" value=""></td>
+
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+
+		<div class="cl pd-5 bg-1 bk-gray mt-40">
+
+
+			<!-- 底部按钮引用 -->
+			<{include file="public/bd"}> <span class="r">共有数据：<strong><{$c}></strong>
+				条
+			</span>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>

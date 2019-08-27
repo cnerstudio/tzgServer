@@ -1,0 +1,96 @@
+﻿<{include file="public/_meta"}>
+<link href="<{$Think.TKP}>/ui/static/h-ui.admin/css/H-ui.login.css"
+	rel="stylesheet" type="text/css" />
+<title>后台登录</title>
+</head>
+<body>
+	<input type="hidden" id="TenantId" name="TenantId" value="" />
+	<div class="header"></div>
+	<div class="loginWraper">
+		<div id="loginform" class="loginBox">
+			<form class="form form-horizontal" action="" method="post">
+				<div class="row cl">
+					<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+					<div class="formControls col-xs-8">
+						<input id="" name="name" type="text" placeholder="账户"
+							class="input-text size-L">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+					<div class="formControls col-xs-8">
+						<input id="" name="pass" type="password" placeholder="密码"
+							class="input-text size-L">
+					</div>
+				</div>
+				<div class="row cl">
+					<div class="formControls col-xs-8 col-xs-offset-3">
+						<input name="capt" class="input-text size-L" type="text"
+							placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}"
+							onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:"
+							style="width: 150px;"> <span id="capt"><{:captcha_img()}></span>
+						<a id="kanbuq" href="javascript:;">看不清，换一张</a>
+					</div>
+				</div>
+
+				<div class="row cl">
+					<div class="formControls col-xs-8 col-xs-offset-3">
+						<input name="login" type="button"
+							class="btn btn-success radius size-L"
+							value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;"> <input
+							name="" type="reset" class="btn btn-default radius size-L"
+							value="&nbsp;重&nbsp;&nbsp;&nbsp;&nbsp;置&nbsp;">
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div id="modal-demo" class="modal fade mt-40" tabindex="-1"
+			role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content radius">
+					<div class="modal-header">
+						<h3 class="modal-title">登录错误</h3>
+						<a class="close" data-dismiss="modal" aria-hidden="true"
+							href="javascript:void();">×</a>
+					</div>
+					<div class="modal-body">
+						<p>对话框内容…</p>
+					</div>
+					<div class="modal-footer">
+						<!-- <button class="btn btn-primary">确定</button> -->
+						<button class="btn clon" data-dismiss="modal" aria-hidden="true">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<div class="footer">Copyright 你的公司名称 by H-ui.admin v3.1</div>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/static/h-ui/js/H-ui.min.js"></script>
+	<script type="text/javascript" src="<{$Think.TKP}>/js/my.js"></script>
+
+	<script>
+		$("#kanbuq").on("click", function() {
+			fex()
+		})
+		
+		$('.clon').on('click',function(){
+			fex()
+		})
+		function fex(){//刷新验证码
+			var mig = $("#capt").children("img")
+			var src = mig.attr("src")
+
+			var ran = "?id=" + Math.random();
+			srcs = src + ran;
+			mig.attr("src", srcs)
+		}
+	</script>
+
+</body>
+</html>

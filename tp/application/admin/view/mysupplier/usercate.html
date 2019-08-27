@@ -1,0 +1,73 @@
+<{include file="public/_meta"}>
+<title>用户类别关系</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		供应商管理 <span class="c-gray en">&gt;</span> 用户类别关系 <{include
+		file="public/down"}><a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr class="groupk">
+					<th class="f-16"><select
+						onchange="window.location=this.value;"> <{volist
+							name="userdata" id="uv"}>
+							<option value="?userid=<{$uv.ID}>&currcate=<{$currcate}>"<{if
+								condition="$uids eq $uv.ID"}>selected = "selected"
+								<{/if}>><{$uv.Username}></option> <{/volist}>
+					</select></th>
+					<th class="f-16">类目名</th>
+					<th class="f-16"><select
+						onchange="window.location=this.value;"> <{volist
+							name="cataarr" id="v"}>
+							<option value="?userid=<{$uids}>&currcate=<{$key}>"<{if
+								condition="$currcate eq $key"}>selected = "selected" <{/if}>
+								><{$v}></option> <{/volist}>
+					</select></th>
+					<th class="f-16">修改时间</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{volist name="data" id='v'}>
+				<tr>
+					<{if condition="($key eq 0) or ($v.userid neq $data[$key-1]['userid']) "}>
+					<td rowspan="<{$urow[$v.userid]}>" style="background: #fff;"><{$v.Username}></td>
+					<{/if}>
+					<td><a
+						href="updataUc?updata=<{$v.isapply==1?0:1}>&cateid=<{$v.cateid}>&user=<{$v.userid}>&page=<{$page}>&userid=<{$uids}>"><span
+							style="color: &amp;amp; lt; {$ redata [$v.cateid]?$redata[$v.cateid]: ''"><{$cat[$v.cateid]}></span></a></td>
+					<td><{switch name="$v.isapply"}> <{case value="0"}><span
+						style="">未启用</span><{/case}> <{case value='1'}><span
+						style="color: #3CB371;">启用</span><{/case}> <{/switch}>
+					</td>
+					<td><{$v.updatetime}></td>
+				</tr>
+				<{/volist}>
+
+			</tbody>
+		</table>
+		<{$data->render()}>
+		<div class="cl pd-5 bg-1 bk-gray mt-50">
+			<span class="r">总记录数：<strong><{$c}></strong> 条
+			</span>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+</body>
+</html>

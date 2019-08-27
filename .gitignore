@@ -1,0 +1,57 @@
+connect.php
+xls
+
+#Ignore thumbnails created by Windows
+Thumbs.db
+#Ignore files built by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+.vs/
+#Nuget packages folder
+packages/
+
+####忽视文件
+dwsync.xml
+/tp/runtime
+/tzgserver/connect.php
+
+#
+/tp/public/images/user/
+/tp/public/temp/img/
+/tp/application/database.php
+/tp/application/config.php
+/tp/application/api
+/tp/application/index
+/tzgserver/
+/favicon.ico
+
+#Ignore files built by Eclipse
+*.settings
+*.buildpath
+*.project
+.vscode
+/tp/vendor
+/api.php

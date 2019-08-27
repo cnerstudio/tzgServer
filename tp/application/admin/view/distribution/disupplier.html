@@ -1,0 +1,74 @@
+<{include file="public/_meta"}>
+<title>分销商户</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		分销列表 <span class="c-gray en">&gt;</span> 分销商户 <a
+			class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+
+					<th class="f-16 " style="width: 40px">序号</th>
+					<th class="f-16" style="width: 120px">供应商ID</th>
+					<th class="f-16 " style="width: 200px">供应商名称</th>
+					<th class="f-16">主营类目</th>
+					<th class="f-16" style="width: 80px">上架方式</th>
+					<th class="f-16 " style="width: 80px">累计销售</th>
+					<th class="f-16" style="width: 80px">累计销量</th>
+					<th class="f-16 " style="width: 80px">累计利润</th>
+					<th class="f-16" style="width: 120px">更新时间</th>
+					<th class="f-16" style="width: 40px">操作</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{foreach name="data" item="v"}>
+				<tr>
+					<td><{$i++}></td>
+					<td><{$v['suppliID']}></td>
+					<td><a
+						href="https://gongxiao.tmall.com/user/supplier_detail.htm?supplierId=".preg_replace('/[^\d]/', '', $v['suppliID'])"."><{$v['suppliname']}>
+					</a></td>
+					<td><{$v['mcategory']}></td>
+					<td><select name="<{$v['suppliname']}>"> <{foreach
+							name="k" item="c"}>
+							<option value="<{$c}>"><{$c}></option> <{/foreach}>
+					</select></td>
+					<td><{$v['csales']|number_format=2}></td>
+					<td><{$v['salesv']}></td>
+					<td><{$v['aprofit']|number_format=2}></td>
+					<td><{$v['rtime']}></td>
+					<td><input type="checkbox" name="selectd" value=""></td>
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+
+		<div class="cl pd-5 bg-1 bk-gray mt-40" style="width: 1500px">
+
+			<{include file="public/bd"}> <span class="r">共有数据：<strong><{$z}></strong>
+				条 &nbsp;&nbsp;当前显示：<strong><{$n}></strong> 条 &nbsp;&nbsp;总销额：<strong><{$e}>￥</strong>
+				&nbsp;&nbsp;总销量：<strong><{$x}></strong></span>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>

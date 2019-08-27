@@ -1,0 +1,80 @@
+<{include file="public/_meta"}>
+<title>运费模板列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		已买/库存/运费 <span class="c-gray en">&gt;</span> 运费模板列表<{include
+		file="public/down"}> <a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+					<th style='width: 84px; font-size: 12px'>J_ID</th>
+					<th style='width: 180px;'>运费模板名称</th>
+					<th style='width: 84px;'>更新时间</th>
+					<th style='width: 134px;'>模板来源</th>
+					<th style='width: 43px;'>校验</th>
+					<th style='width: 60px;'>计价方式</th>
+					<th style='width: 84px;'><select
+						onchange="window.location.href=this.value"> <{volist
+							name="userData" id="vu"}>
+							<option value="?user=<{$vu}>"<{$vu==$user?'selected':''}>><{$vu}></option>
+							<{/volist}>
+					</select></th>
+					<th style='width: 60px;'>运送方式</th>
+					<th>运送到</th>
+					<th style='width: 50px;'>首件(个)</th>
+					<th style='width: 50px;'>运费(元)</th>
+					<th style='width: 50px;'>续件(个)</th>
+					<th style='width: 50px; font-size: 12px'>运费(元)</th>
+				</tr>
+
+			</thead>
+			<tbody class="text-c">
+				<{volist name="data" id="v"}>
+				<tr>
+					<td><{$v.J_ID}></td>
+					<td><{$v.J_Title}></td>
+					<td><{$v.J_LastModified}></td>
+					<td><{$v.J_From}></td>
+					<td><{$v.J_Check}></td>
+					<td><{$v.J_CalcRule}></td>
+					<td><{$v.Username}></td>
+					<td><{$v.col_express}></td>
+					<td><{$v.col_area}></td>
+					<td><{$v.col_starting}></td>
+					<td><{$v.col_postage}></td>
+					<td><{$v.col_plus}></td>
+					<td><{$v.col_postageplus}></td>
+				</tr>
+				<{/volist}>
+			</tbody>
+		</table>
+
+		<div class="cl pd-5 bg-1 bk-gray mt-40">
+			<{$data->render()}> <span class="r">共有数据：<strong><{$data->total()}></strong>
+				条
+			</span>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>

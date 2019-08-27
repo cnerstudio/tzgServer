@@ -1,0 +1,290 @@
+<{include file="public/_meta"}>
+<title>属性关系</title>
+<style>
+#do {
+	position: relative;
+	/* border:1px red solid; */
+	padding: auto;
+}
+
+#d1 {
+	margin-left: 20%;
+	width: 250px;
+	/* border:1px red solid; */
+}
+
+.uls {
+	list-style-type: none;
+	background-color: #ccc;
+	position: absolute;
+	margin-left: 8px;
+	width: 200px;
+}
+
+#d1 input {
+	padding-left: 0;
+}
+</style>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		淘宝管理 <span class="c-gray en">&gt;</span> 属性关系 <{include
+		file="public/down"}> <a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+
+	</nav>
+	<div class="pd-20">
+		<div>
+			<select id="catid" onchange="window.location.href=this.value">
+				<{volist name="cate" id="vc"}>
+				<option value="?cateid=<{$key}>"<{$key==$cateid?'selected="selected"':''}>
+					> <{$vc}></option> <{/volist}>
+			</select> <input type="text" name="Prefix" value="<{$name}>" />
+			<button id='ser'>搜索</button>
+			&emsp;&emsp;
+			<button id='prefix'>前后缀匹配</button>
+			<input type="text" name="Suffix" value="<{$suffix}>" />
+			&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;			
+			<button id='clear'>清理淘字段</button>
+		</div>
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr class="groupk">
+					<th>淘宝字段名</th>
+					<th>Pdd字段名</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{volist name="data" id="vs"}>
+				<tr>
+					<td class="tds"><{$vs.tname?$vs.tname:($vs.cate==',A001,'?'':'<button class="tbut" it="1">添加</button>')}>
+					</td>
+					<td class='tds'><{$vs.pname?$vs.pname:($vs.cate==',A001,'?'':'<button class="tbut" it="2">添加</button>')}>
+					</td>
+				</tr>
+				<{/volist}>
+			</tbody>
+		</table>
+		<br />
+
+		<div class="cl pd-5 bg-1 bk-gray mt-40">
+			<{$data->render()}> <span class="r">列表未关联：<strong><{$nullTotal['total']}>
+			</strong>条 列表数据：<strong><{$data->total()}></strong> 条
+			</span>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<{include file="public/_footer"}>
+		<!--/_footer 作为公共模版分离出去-->
+		<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content radius">
+					<div class="modal-header">
+						<h3 class="modal-title"></h3>
+						<a class="close" data-dismiss="modal" aria-hidden="true"
+							href="javascript:void();">×</a>
+					</div>
+					<div class="modal-body">
+						<p id='pp'></p>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary">确定</button>
+						<button class="btn gbbut" data-dismiss="modal" aria-hidden="true">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="cp" class="modal fade" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content radius">
+					<div class="modal-header">
+						<h3 class="modal-title">操作提示：</h3>
+					</div>
+					<div class="modal-body">
+						<p id='fx'></p>
+					</div>
+					<div class="modal-footer">
+						<button class="btn bnt-qx" data-dismiss="modal" aria-hidden="true">关闭</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript"
+			src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+		<script type="text/javascript"
+			src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script type="text/javascript"
+			src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+		<script>
+	$('.tbut').on('click',function(){
+			$('.tds').each(function(){
+				$(this).children('#do').remove();
+				$(this).children('.tbut').show();
+				$(this).off('click')
+				$(document).off('click')
+			})
+			var it=$(this).attr('it')
+			$(this).parent('td').append('<div id="do"><div id="d1"><input type="text" name="butok" style="width:200px"><button class="tbut sb">确定</button><ul class="uls"></ul><div></div>');
+			$(this).hide();
+			var tdp=$(this).parent('td');
+			var but=$(this)
+			$(document).on('click',function(ev){
+				$('#do').remove();
+				but.show()
+								    })
+			tdp.on('click',function(ev){
+				ev.stopPropagation()
+								    })
+
+						    //焦点事件
+	$('input[name="butok"]').on('focus',function(){
+		$(this).on('keyup',function(){
+			$('#tbut').off('click')
+			var val=$(this).val()
+			var cate=$('#catid option:selected').val();
+			cat=cate.replace('?cateid=','')
+			$.ajax({
+				url:'../../api/taoapi/getOption',
+				data:'tname='+val+'&it='+it+'&cat='+cat,
+				type:'POST',
+				dataType:'json',
+				success:function(a){
+					if(it==1){
+						var name='tname'
+					}else{
+						var name='pname'
+												}
+					$('.uls').empty();
+					var lis='';
+					if(a.status==1){
+						for(var i=0;i<a.data.length;i++){
+							lis+='<li>'+a.data[i][name]+'</li>'
+												}
+					}else if(a.status==2){
+						lis='<li>暂无数据</li>'
+												}
+					$('.uls').append(lis)
+					if(a.status==1){
+						$('.uls li').on('mousemove',function(){
+							$(this).css('background','white')
+							$(this).on('mouseleave',function(){
+								$(this).css('background','#ccc')
+																	})
+							$(this).on('click',function(){
+								var val=$(this).text();
+								$('input[name="butok"]').val(val);
+								$('.uls').empty();
+																	})
+
+														})
+												}
+				}
+			})
+									})
+								    })
+	$('.sb').on('click',function(){
+		var vs=$('input[name="butok"]').val();
+		if(vs!=''){
+			$('.btn-primary').show();
+			$("#pp").text('是否确定关联此属性？');
+			$("#modal-demo").modal("show")
+			var cate=$('#catid option:selected').val();
+			cat=cate.replace('?cateid=','')
+			if(it==1){
+				var pname=$(this).parents('td').next('td').text();
+			}else{
+				var ui=$(this).parents('td').prev('td').text();
+				pname=vs;
+				vs=ui;
+			}
+			$('.btn-primary').on('click',function(){
+				$.ajax({
+					url:'../../api/taoapi/upProp',
+					data:'tname='+vs+'&cat='+cat+'&pname='+pname+'&it='+it,
+					type:'POST',
+					success:function(a){
+						if(a==1){
+							var page=$('.active').children('span').text()
+							var parname=$('input[name="Prefix"]').val()
+							if(parname)
+								parname='&name='+parname;
+							else
+								parname='';
+							var url='?page='+page+"&cateid="+cat+parname
+							window.location.href=url
+						}else{
+							$("#pp").text('修改失败！');
+						}
+						$('.btn-primary').hide();
+						$("#modal-demo").modal("show")
+					}
+				})
+			})
+		}else{
+			$('.btn-primary').hide();
+			$("#pp").text('请输入属性名字');
+			$("#modal-demo").modal("show")
+		}
+	})
+		
+						})
+
+			
+	$('#ser').on('click',function(){//搜索属性
+		var name=$('input[name="Prefix"]').val();
+		var cate=$('#catid option:selected').val();
+	    window.location.href=cate+'&name='+name;
+	    })
+
+	    //前后缀匹配
+	$("#prefix").on('click',function(){
+		var pre=$('input[name="Prefix"]').val()
+		var suffix=$('input[name="Suffix"]').val()
+		if(!suffix)
+			suffix='';
+		if(pre==''||pre==' '){
+			    $('#fx').text('请输入前缀！');
+			    $('#cp').modal('show');
+			}
+		var cate=$('#catid option:selected').val();
+		cat=cate.replace('?cateid=','')
+			$('#fx').html('<p>处理中...</p>');
+			$('#bnt-qx').hide();
+			$('#cp').modal('show');
+			$.ajax({
+			url:'../../api/taoapi/prefix',
+			data:'pre='+pre+'&cat='+cat+'&suf='+suffix,
+			type:'POST',
+			dataType:'json',
+			success:function(a){
+				if(a.result==1){
+					$('#fx').html('<p>处理完成，关联'+a.message+'个属性</p>');
+				}else{
+					$('#fx').html('<p>处理完成，失败原因'+a.message+'</p>');
+
+				}
+				$('.bnt-qx').show();
+				$('.bnt-qx').on('click',function(){
+					window.location.href='?cateid='+cat+'&name='+pre+'&suffix='+suffix
+				})
+			}
+					})
+		    })
+	
+	
+	</script>
+</body>
+</html>

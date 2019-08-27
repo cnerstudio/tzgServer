@@ -1,0 +1,202 @@
+<{include file="public/_meta"}>
+<title>用户供应关系</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		供应商管理 <span class="c-gray en">&gt;</span> 用户供应关系
+		<!-- <{include file="public/down"}>  -->
+		<a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr class="groupk">
+
+					<th class="f-16"><select
+						onchange="window.location=this.value;"> <{volist
+							name="userst" id="v"}>
+							<option
+								value="?suserid=<{$v.userid}>&cateid=<{$getcateid}>&apply=<{$apply}>&enablet=<{$enablet}>&page=1&group=<{$group}>&dec=<{$dec}>"<{if
+								condition="$v.userid==$sid"}> selected = "selected" <{/if}>
+								><{$v.Username}></option> <{/volist}>
+					</select></th>
+					<th class="f-16">供应商名<span style="color: blue">(可申请/<span
+							style="color: red">合作中</span>)
+					</span></th>
+					<th class="f-16"><a class="btn-default btn-link"
+						href="?apply=<{$apply}>&suserid=<{$sid}>&cateid=<{$getcateid}>&enablet=<{$enablet}>&page=1&group=productcount&dec=<{$group=='bnum'?'desc':($dec=='desc'?'asc':'desc')}>">关联/产品数</a><i
+						class="Hui-iconfont">
+							<{$group==='productcount'?$dec=='desc'?'&#xe6d5':'&#xe6d6':''}></i></th>
+					<th class="f-16"><select
+						onchange="window.location=this.value;"> <{volist
+							name="$catedata" id="v"}>
+							<option
+								value="?cateid=<{$v['id']}>&suserid=<{$sid}>&apply=<{$apply}>&enablet=<{$enablet}>&page=1&group=<{$group}>&dec=<{$dec}>"<{if
+								condition="$getcateid==$v['id']"}>selected = "selected" <{/if}>
+								><{$v['catename']}></option>> <{/volist}>
+					</select></th>
+					<th class="f-16">供应品牌</th>
+					<th class="f-16"><select
+						onchange="window.location=this.value;" id='seletstu'>
+							<{volist name="applyarr" id="v"}>
+							<option
+								value="?apply=<{$key}>&suserid=<{$sid}>&cateid=<{$getcateid}>&enablet=<{$enablet}>&page=1&group=<{$group}>&dec=<{$dec}>"<{if
+								condition="($apply)==($key)"}> selected = "selected" <{/if}>
+								><{$v}></option> <{/volist}>
+					</select></th>
+					<th class="f-16"><select
+						onchange="window.location=this.value;"> <{volist
+							name="$enables" id="v"}>
+							<option
+								value="?enablet=<{$key}>&&suserid=<{$sid}>&cateid=<{$getcateid}>&apply=<{$apply}>&page=1&group=<{$group}>&dec=<{$dec}>"<{if
+								condition="$key eq $enablet"}>selected = "selected"<{/if}> >
+								<{$v}></option> <{/volist}>
+					</select></th>
+					<th class="f-16"><a class="btn-default btn-link"
+						href="?apply=<{$apply}>&suserid=<{$sid}>&cateid=<{$getcateid}>&enablet=<{$enablet}>&page=1&group=bnum&dec=<{$group=='productcount'?'desc':($dec=='desc'?'asc':'desc')}>">品牌数量</a><i
+						class="Hui-iconfont">
+							<{$group=='bnum'?$dec=='desc'?'&#xe6d5':'&#xe6d6':''}></i></th>
+					<th class="f-16">修改时间</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{volist name="needdata" id="vo"}>
+				<tr>
+					<td><{$vo['Username']}></td>
+					<td><a
+						href="https://gongxiao.tmall.com/shop/shop_product_list.htm?supplierId=<{$vo.supplierid}>">
+							<span
+							style="color: &amp;amp; lt; {$ red [$vo.supplierid]?'red': (isset($ blue [$ vo.supplierid ])?'blue':'')">
+								<{$vo.enable==6||$vo.enable==6?'<span
+								style="border-bottom: 2px solid orange">':''}>
+									<{$vo.enable!=101&&$vo.enable!=0&&$vo.enable!=6&&$vo.enable!=161||(isset($indearr[$vo.supplierid])&&$indearr[$vo.supplierid]!=$vo.userid)?'<del>'.$vo.name.'</del>':$vo.name}>
+									<{$vo.enable==6||$vo.enable==161?'
+							</span>':''}>
+						</span></td>
+					<td><{$vo.relation}>/<{$vo['productcount']}></td>
+					<td><{if condition="$vo.cateid neq ''"}> <{volist
+						name="$vo.cateid|explode=',',###" id="cv"}>
+						<{$idcate[$cv]?$idcate[$cv]:''}><br /> <{/volist}> <{/if}>
+					</td>
+					<td><{$vo['brand']}></td>
+					<td><{switch name="$vo['status']"}> <{case
+						value="0"}>未知<{/case}> <{case value="1"}>可申请<{/case}> <{case
+						value="2"}>申请中<{/case}> <{case value="3"}>合作中<{/case}> <{case
+						value="4"}>已拒绝<{/case}> <{case value="5"}>已过期<{/case}> <{/switch}>
+					</td>
+					<td><select class="enableq"> <{volist name="enable"
+							id="vc"}>
+							<option value="<{$key}>"<{if condition="$key eq $vo.enable"}> selected = "selected" <{/if}> uid="<{$vo.userid}>"
+								sid="<{$vo.supplierid}>" ><{$vc}></option> <{/volist}>
+					</select></td>
+					<td><{$vo['bnum']}></td>
+					<td><{$vo['updatetime']}></td>
+				</tr>
+				<{/volist}>
+			</tbody>
+		</table>
+		<{$data->render()}>
+		<div class="cl pd-5 bg-1 bk-gray mt-50">
+			<span class="r">合作供应商:<strong><{$capp}> </strong> 已关联商品总数：<strong><{$total?$total.t:'0'}></strong>件
+				记录数：<strong><{$c}></strong> 条
+			</span>
+		</div>
+	</div>
+	<p hidden="hidden" id="pages"><{$page}></p>
+	<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">请确定</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p>是否修改状态？</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary enableok">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modal-demo1" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">修改结果</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id="enastr">修改成功</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary enaurl">确定</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+	<script>
+			  $(".enableq").each(function(){
+				  $(this).on("change",function(){
+					 var uid=$(this).children("option:selected").attr("uid")//用户id
+					 var sid=$(this).children("option:selected").attr("sid")//供应商id
+					 var ena=$(this).children("option:selected").val()//修改的状态值
+					 var urls=$("#seletstu option:selected").val()//原有排序
+					 var page=$("#pages").text()//当前页
+					 urls=urls+'&page='+page
+					 $("#modal-demo").modal("show")
+					 $(".enableok").on("click",function(){
+						 $.ajax({
+							 url:'upenable',
+							 type:'GET',
+							 data:'uid='+uid+'&sid='+sid+"&ena="+ena,
+							 success:function(a){
+								 $("#modal-demo").modal("hide")
+								 if(a==1){
+									 window.location.href=urls
+								 }else{
+									 $("#enastr").text('修改失败');
+									 $("#modal-demo1").modal("show")
+									 $(".enaurl").on("click",function(){
+										 window.location.href=urls
+									 })
+								 }
+							 }
+						 })
+					 })
+				  })
+			  })
+	
+	        </script>
+
+
+
+</body>
+</html>

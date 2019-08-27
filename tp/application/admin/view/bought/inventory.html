@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="<{$Think.TKP}>/ui/lib/html5shiv.js"></script>
+<script type="text/javascript" src="<{$Think.TKP}>/ui/lib/respond.min.js"></script>
+<![endif]-->
+
+<{include file="public/_meta"}>
+
+
+<!--[if IE 6]>
+<script type="text/javascript" src="<{$Think.TKP}>/ui/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>库存列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		已买/库存/运费 <span class="c-gray en">&gt;</span> 库存列表 <a
+			class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+
+
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+					<th class="f-16" style="width: 40px">序号</th>
+					<th class="f-16" style="width: 60px">内编</th>
+					<!-- <th class="f-16">类型</th> -->
+					<th class="f-16">名称</th>
+					<th class="f-16" style="width: 60px">成本</th>
+					<th class="f-16" style="width: 60px">总量</th>
+					<th class="f-16" style="width: 60px">自用</th>
+					<th class="f-16" style="width: 60px">余量</th>
+					<th class="f-16" style="width: 120px">校验日期</th>
+					<th class="f-16" style="width: 100px">用途</th>
+					<th class="f-16" style="width: 40px">操作</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{foreach name="data" item="v"}>
+				<tr>
+					<td><{$i++}></td>
+					<td><{$v['inter']}></td>
+					<td><{$v['name']}></td>
+					<td><{$v['cost']|number_format=2}></td>
+					<td><{$v['countN']}></td>
+					<td><{$v['selfU']}></td>
+					<td><{$v['allowance']}></td>
+					<td><{$v['cdate']}></td>
+					<td><{$v['purpose']}></td>
+					<td><input type="checkbox" name="selectd" value=""></td>
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+
+		<div class="cl pd-5 bg-1 bk-gray mt-40">
+			<{include file="public/bd"}> <span class="r">共有数据：<strong><{$c}></strong>
+				条
+			</span>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>

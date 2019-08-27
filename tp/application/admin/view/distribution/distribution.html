@@ -1,0 +1,105 @@
+<{include file="public/_meta"}>
+<title>分销商品</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		分销列表 <span class="c-gray en">&gt;</span> 分销商品<{include
+		file="public/down"}> <a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+
+	<div class="text-c">
+		<form action="">
+			<input type="text" class="input-text " style="width: 250px"
+				placeholder="输入商品名" id="" name="searchgoods"
+				value="<{$searchgoods}>"> <input type="hidden" name="uname"
+				value="<{$uname}>"> <input type="hidden" name="status"
+				value="<{$status}>">
+			<button type="submit" class="btn btn-success" id="" name="">
+				<i class="icon-search"></i> 搜商品
+			</button>
+		</form>
+	</div>
+
+
+	<div class="pd-20">
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+					<th class="f-16" style="width: 90px"><select
+						onchange="window.location.href=this.value"> <{volist name="unamearr" id="v"}>
+							<option
+								value="?uname=<{$v.username}>&status=<{$status}>&searchgoods=<{$searchgoods}>&supname=<{$supname}>"<{if
+								condition="$uname eq $v.username"}>selected=selected<{/if}>><{$v.username}></option>
+							<{/volist}>
+					</select></th>
+
+					<th class="f-16" style="width: 200px">
+						<{$uname!='所有用户'?$select:'供应商'}></th>
+					<th class="f-16">商品名称</th>
+					<th class="f-16" style="width: 50px">采购价</th>
+					<th class="f-16" style="width: 50px">售价</th>
+					<th class="f-16" style="width: 50px">利润</th>
+					<th class="f-16" style="width: 50px">库存</th>
+					<th class="f-16 my70" style="width: 120px">更新时间</th>
+					<th class="f-16" style="width: 40px"><select
+						onchange="window.location.href=this.value"> <{volist
+							name="state" id="v"}>
+							<option
+								value="?uname=<{$uname}>&status=<{$v}>&searchgoods=<{$searchgoods}>&supname=<{$supname}>"<{if
+								condition="$status eq $v"}>selected=selected<{/if}> ><{$v}></option>
+							<{/volist}>
+					</select></th>
+					<th style="width: 50px">详情</th>
+
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{foreach name="data" item="v"}>
+				<tr>
+					<td><{$v['username']}></td>
+
+					<td><{$v['name']}></td> <{php}> if(!isset($v['goodsID']) ||
+					$v['goodsID']=="") echo "
+					<td>".$v['goodsname']."</td>"; else{ echo "
+					<td><a href="."
+						'https://item.taobao.com/item.htm?id=".$v['goodsID']."'>".$v['goodsname']."</a></td>";
+					} <{/php}>
+					<td><{$v['pprice']}></td>
+					<td><{$v['price']}></td>
+					<td><{$v['profit']}></td>
+					<td><{$v['stock']}></td>
+					<td><{$v['rtime']}></td>
+					<td><{$v['state']}></td>
+					<td><a
+						href="https://goods.gongxiao.tmall.com/product/product_detail.htm?productId=<{$v['ID']}>&supplierId=<{$v['supplierID']}>">查看</a></td>
+
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+		<{$data->render()}>
+		<div class="cl pd-5 bg-1 bk-gray mt-40">
+
+			<span class="r"> 列表数据：<strong><{$data->total()}></strong> 条
+			</span>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>

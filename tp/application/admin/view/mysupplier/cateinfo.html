@@ -1,0 +1,176 @@
+<{include file="public/_meta"}>
+<title>供应商大类管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		供应商管理 <span class="c-gray en">&gt;</span> 供应类目管理 <{include
+		file="public/down"}><a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr class="groupk">
+					<th class="f-16" style="width: 80px">ID</th>
+					<th class="f-16 " style="width: 160px"><a
+						class="btn-default btn-link"
+						href="?group=<{$group=='group1'?'group2':'group1'}>&display=<{$display}>">供应类目<i
+							class="Hui-iconfont"><{$group=="group1"?'&#xe6d5;':($group=="group2"?'&#xe6d6;':'')}></i></a>
+					</th>
+					<th class="f-16 " style="width: 80px"><a
+						class="btn-default btn-link"
+						href="?group=<{$group=='group3'?'group4':'group3'}>&display=<{$display}>">供应商数量<i
+							class="Hui-iconfont"><{$group=="group3"?'&#xe6d5;':($group=="group4"?'&#xe6d6;':'')}></i></a>
+					</th>
+					<th class="f-16 " style="width: 80px"><a
+						class="btn-default btn-link"
+						href="?group=<{$group=='group5'?'group6':'group5'}>&display=<{$display}>">商品数量<i
+							class="Hui-iconfont"><{$group=="group5"?'&#xe6d5;':($group=="group6"?'&#xe6d6;':'')}></i></a>
+					</th>
+					<th class="f-16 " style="width: 80px">
+						<!-- 是否显示 --> <select onchange="window.location=this.value;">
+							<{volist name="ishow" id='v'}>
+							<option value="?group=<{$group}>&display=<{$key}>"<{if
+								condition="$key==$display"}>selected = "selected" <{/if}>><{$v}></option>>
+							<{/volist}>
+					</select>
+					</th>
+					<th class="f-16" style="width: 120px">添加用户</th>
+					<th class="f-16" style="width: 120px">是否置顶</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{foreach name="date" item="v"}>
+				<tr>
+					<td><{$v['id']}></td>
+					<td><a href="sinfo?action=cate&cateid=<{$v['id']}>"><{$v['catename']}></a></td>
+					<td><{$v['c']}></td>
+					<td><{$v['s']}></td>
+					<td><{switch name="$v['isshow']"}> <{case
+						value="0"}>不显示<{/case}> <{case value="1"}>显示<{/case}> <{/switch}></td>
+					<td><{switch name="$v.isshow"}> <{case value='1'}> <select
+						class="ucs" cid=<{$v.id}> > <{volist name="userdata"
+							id="vu"}>
+							<option value="<{$vu.ID}>"><{$vu.Username}></option> <{/volist}>
+					</select> <{/case}> <{/switch}>
+					</td>
+					<td><{if condition="$v['isshow']==1"}><a
+						href="?is=<{$toparr[$v['isTop']][0]['key']}>&topid=<{$v['id']}>&display=<{$display}>&group=<{$group}>&page=<{$page}>"><button
+								class="<{$toparr[$v['isTop']][0]['class']}>"><{$toparr[$v['isTop']][0]['name']}></button></a>
+						<a
+						href="?is=<{$toparr[$v['isTop']][1]['key']}>&topid=<{$v['id']}>&display=<{$display}>&group=<{$group}>&page=<{$page}>"><button
+								class="<{$toparr[$v['isTop']][1]['class']}>"><{$toparr[$v['isTop']][1]['name']}></button></a>
+
+						<{/if}>
+					</td>
+				</tr>
+				<{/foreach}>
+			</tbody>
+
+		</table>
+		<{$date->render()}>
+		<div class="cl pd-5 bg-1 bk-gray mt-50">
+			<!-- 底部按钮引用 -->
+
+			<span class="r">类目记录数：<strong><{$c}></strong> 条
+			</span>
+		</div>
+	</div>
+
+	<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">请确定</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p>是否确定关联此用户和类目？</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" id="bntok">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="modal-ajax" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">结果</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id="ajaxcr">对话框内容…</p>
+				</div>
+				<div class="modal-footer">
+
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+	<script type="text/javascript">
+		$(".ucs").each(function() {
+			var cid = $(this).attr("cid");//类目id
+			$(this).on("change", function() {
+				var uid = $(this).val();//用户id
+				if (uid != 0) {
+					$("#modal-demo").modal("show");
+					$("#bntok").one("click", function() {
+						$.ajax({
+							url : 'cruc',
+							type : 'POST',
+							data : "cid=" + cid + "&uid=" + uid,
+							success : function(a) {
+								$("#modal-demo").modal("hide")
+								if (a == 1) {//插入成功
+									$("#ajaxcr").text('关联成功！');
+								} else if (a == 2) {//已存在
+									$("#ajaxcr").text('重复关联！');
+								} else if (a == 3) {//插入错误
+									$("#ajaxcr").text('错误，请重试！');
+								}
+								$("#modal-ajax").modal("show")
+							}
+
+						})
+
+					})
+				}
+
+			})
+		})
+	</script>
+</body>
+</html>

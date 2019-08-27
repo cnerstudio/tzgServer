@@ -1,0 +1,104 @@
+<{include file="public/_meta"}>
+<title>供应商管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		供应商管理 <span class="c-gray en">&gt;</span> 供应商列表
+		<!-- <{include file="public/down"}> -->
+		<a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20">
+
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+
+
+					<th class="f-16" style="width: 200px">供应商名字</th>
+					<th class="f-16" style="width: 80px">地区</th>
+					<th class="f-16">品牌</th>
+					<th class="f-16" style="width: 80px"><select
+						onchange="window.location=this.value;"> <{volist
+							name="catedata" id="v"}>
+							<option
+								value="?action=cate&cateid=<{$v['id']}>&cgroup=<{$cgroup}>&id=<{$uid}>"<{if
+								condition="$v['id'] eq $cid"}> selected = "selected" <{/if}>
+								><{$v['catename']}></option> <{/volist}>
+					</select></th>
+					<th class="f-16" style="width: 50px">最高价</th>
+					<th class="f-16" style="width: 50px">最低价</th>
+					<th class="f-16" style="width: 50px">平均价</th>
+					<th class="f-16" style="width: 38px">状态</th>
+					<th class="f-16" style="width: 90px"><a
+						href="?cgroup=<{$cgroup=='desc'?'asc':'desc'}>&id=<{$uid}>&action=cate&cateid=<{$cid}>">产品数量<i
+							class="Hui-iconfont"><{$cgroup=='desc'?'&#xe6d5':'&#xe6d6'}></i></a></th>
+					<th class="f-16" style="width: 130px">更新时间</th>
+					<th class="f-16" style="width: 40px">操作</th>
+					<!-- <th class="f-16" style="width: 40px">操作</th> -->
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{foreach name="date" item="v"}>
+				<tr>
+					<td><{$v['name']}></td>
+					<td><{$v['province']}> <{$v['city']}></td>
+					<td><span
+						style="color: &amp;amp; lt; {$ datacolor [$v['brand']]?$color: ''"><{$v['brand']}></span></td>
+					<td><{if condition="$v.searchid neq ''"}> <{volist
+						name="$v.searchid|explode=',',###" id="cv"}>
+						<{$newCat[$cv]?$newCat[$cv]:''}><br /> <{/volist}> <{/if}>
+					</td>
+					<td><{$v['pricedmax']}></td>
+					<td><{$v['priceamin']}></td>
+					<td><{$v['priceavg']}></td>
+					<td><{$v['rstatus']}></td>
+					<td><{$v['productcount']}></td>
+					<td><{$v['rtime']}></td>
+
+					<td><a href="datails?id=<{$v['id']}>">详情</a></td>
+
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+		<{$date->render()}>
+		<div class="cl pd-5 bg-1 bk-gray mt-50">
+
+			<span class="r"><a href='?action=list'>列表供应商：<strong><{$n[0]['sc']}></strong>
+					条
+			</a> <a href="?action=update">供应商介绍 :<strong><{$n[1]['sc']}>
+						条 </a> </strong><a href="?action=price">供应商价格：<strong><{$n[3]['sc']}>
+						条 </strong></a>已删除：<strong><{$n[2]['sc']}> 条 </strong> 已关闭：<strong><{$n[4]['sc']}>
+					条 当前记录 <strong> <{$sk}>条</strong>
+			</strong></span>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+
+	<!--    <ul class="pagination">
+    <li class="disabled"><span>&laquo;</span></li> 
+    <li class="active"><span>1</span></li>
+    <li><a href="/tp/admin/mysupplier/sinfo?page=2">2</a></li> 
+    <li><a href="/tp/admin/mysupplier/sinfo?page=2">&raquo;</a></li>
+    </ul>   <div class="cl pd-5 bg-1 bk-gray mt-40">
+
+ -->
+
+</body>
+</html>

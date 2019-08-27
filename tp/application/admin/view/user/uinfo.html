@@ -1,0 +1,287 @@
+<{include file="public/_meta"}>
+<title>用户管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		用户中心 <span class="c-gray en">&gt;</span> 用户列表 <{include
+		file="public/down"}><a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 cl">
+		<table style="width: 100%;"
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+					<th class="f-16" style="width: 80px;">ID</th>
+					<th class="f-16" style="width: 80px;">用户头像</th>
+					<th class="f-16" style="width: 120px;">Username</th>
+					<th class="f-16" style="width: 120px;">已上/未上/未联</th>
+					<th class="f-16" style="width: 70px">用户类别</th>
+					<th class="f-16" style="width: 120px">已买导入</th>
+					<th class="f-16" style="width: 120px">已卖导入</th>
+					<th class="f-16" style="width: 140px">主要运费模板</th>
+					<th class="f-16" style="width: 80px">所在地</th>
+					<th class="f-16" style="width: 50px">操作</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{foreach name="data" item="v"}>
+				<tr>
+
+					<td><{$v.ID}></td>
+					<td><img src="<{$Think.TKP}><{$v.picurl|substr=1}>"
+						width="50px" class="downpic" it="<{$v.Username}>"></td>
+					<td><{$v.Username}></td>
+					<td><{$total[$v.Username]['已上架']?$total[$v.Username]['已上架']:'0'}>/<{$total[$v.Username]['未上架']?$total[$v.Username]['未上架']:'0'}>/<{$total[$v.Username]['未关联']?$total[$v.Username]['未关联']:'0'}></td>
+					<td><select onchange="window.location.href=this.value"
+						style="width: 70px"> <{volist name="userCate" id="vd"}>
+							<option value="upUinfo?id=<{$v.ID}>&key=<{$key}>"<{$vd==$v.Category?'selected':''}>><{$vd}></option>
+							<{/volist}>
+					</select></td>
+					<td><{$v['bought']}></td>
+					<td><{$v['sold']}></td>
+					<td un="<{$v.Username}>"><span class="temp"><{$v['freightTemp']?$v['freightTemp']:'-'}></span></td>
+					<td uid="<{$v.ID}>" style="cursor: pointer" class="uplocat">
+						<{$v['location']?$v['location']:'-'}></td>
+					<td><a href="../../admin/mysupplier/sinfo?id=<{$v.ID}>"><button>可申请</button></a></td>
+				</tr>
+				<{/foreach}>
+			</tbody>
+		</table>
+		<br>
+
+
+		<div class="cl pd-5 bg-1 bk-gray mt-40">
+			<{$data->render()}><span class="r">共有数据：<strong id='total'><{$data->total()}></strong>
+				条
+			</span>
+		</div>
+	</div>
+	<input type="hidden" name="js" value="<{$Think.TKP}>">
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">返回结果</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id='t0'>对话框内容…</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="loca" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">请选择所在地</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p id="pp">
+						<select id="sf"> <{volist name="locat" id="vd"}>
+							<option value="<{$key}>"><{$vd}></option> <{/volist}>
+						</select>
+						<select id="cs">
+							<option value="-1">请选择城市</option>
+						</select>
+						<span class='careful f-12'></span>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary locatok">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="temps" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title">请选择运费模板</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body clt">
+					<select id="tmps"></select><span class='cr f-12'></span>
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary  uptemp">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <iframe id="iframe" src="" style="display: none;"></iframe> -->
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+	<script>
+
+	$('.uplocat').on('click',function(){
+		var u=$(this).attr('uid')
+		var spanobj=$(this)
+		$("#loca").modal("show")
+	})
+	$("#sf").on('change',function(){
+		var id=$("#sf option:selected").val();
+		$('.careful').text('')
+		if(id==(-1)){
+			$('#cs').empty();
+			var op='<option value="-1">请选择省份</option>';
+			$('#cs').append(op)
+			return;
+		}
+		$.ajax({
+			url:'getCity',
+			data:'id='+id,
+			type:'POST',
+			dataType:'json',
+			success:function(a){
+				if(a.result==1){
+					$('#cs').empty();
+					var op='<option value="-1">请选择城市</option>';
+					for(var i=0;i<a.data.length;i++){
+						 op+='<option value="'+a['data'][i]['id']+'">'+a['data'][i]['name']+'</option>'; 
+					}
+					$('#cs').append(op)
+				}
+			}
+		})
+		
+	})
+	$('.locatok').on('click',function(){
+		var f=$('#sf option:selected').val()
+		if(f==(-1)){
+			$('.careful').text('*请选择省份1')
+			return false
+		}
+		var c=$('#cs option:selected').val()
+		if(c==(-1)){
+			$('.careful').text('*请选择城市')
+			return false
+		}
+		$.ajax({
+			url:'upUserLoact',
+			data:'c='+c+'&u='+u,
+			type:'POST',
+			dataType:'json',
+			success:function(a){
+				if(a.result==1){
+					spanobj.text(a.message);
+					$("#loca").modal("hide")
+					return false
+				}else{
+					$('.careful').text('*修改失败！')
+					return false
+				}
+			}
+		})
+	})
+	$('#cs').on('change',function(){
+		$('.careful').text('')
+	})
+	var tempName='';
+	var obj='';
+	$(".temp").on('click',function(){
+	    var name=$(this).parents('td').attr('un');
+	    tempName=name;
+	    obj=$(this)
+	    $(".cr").text('')
+	    $.ajax({
+	    	url:'../bought/getTempName',
+	    	data:'name='+name,
+	    	type:'POST',
+	    	dataType:'json',
+	    	success:function(a){
+	    		if(a.result==1){
+	    			var op='<option value="-1" size="20">请选择运费模板</option>';
+	    			for(var i=0;i<a.data.length;i++){
+	    				op+='<option value="'+a['data'][i]['J_ID']+":"+a.data[i]['J_Title']+'" size="20">'+a['data'][i]['J_Title']+'</option>'
+	    			}
+	    		}else if(a.result==2){
+	    			var op='<option value="-1" size="20">请选择运费模板</option>';
+	    		}else{
+	    			var op='<option value="-1" size="20">参数错误</option>';
+	    		}
+	    		$('#tmps').empty();
+    			$('#tmps').append(op);
+	    		$("#temps").modal("show")
+	    	}
+	    })
+	             
+	})
+	$('.uptemp').on('click',function(){
+	    		   var 	d=$('#tmps option:selected').val();
+	    		   if(d==(-1)){
+	    			   $(".cr").text('请选择')
+	    			   return false;
+	    		   }
+	    		   $.ajax({
+	    			   url:'upTemp',
+	    			   data:'data='+d+'&name='+tempName,
+	    			   type:'POST',
+	    			   dataType:'json',
+	    			   success:function(a){
+	    				   if(a.result==1){
+	    					   obj.text(a['message']) 
+	    					   $("#temps").modal("hide")
+	    				   }else{
+	    					   $(".cr").text('修改错误') 
+	    				   }
+	    			   }
+	    		   })
+	    		})
+
+	
+	$(".downpic").each(function(){
+		$(this).on('click',function(){
+			var name=$(this).attr('it')
+			var obj=$(this)
+			$.ajax({
+				url:'downPic',
+				data:'name='+name,
+				type:'POST',
+				dataType:'json',
+				success:function(a){
+					if(a.r==1){
+						var host=$('input[name="js"]').val();
+						var url=host+a.url
+						obj.attr('src',url)
+					}else{
+						$('#t0').text('头像下载失败')
+						$("#modal-demo").modal("show");
+					}
+				}
+			})
+		})
+	})
+	
+
+</script>
+</body>
+</html>

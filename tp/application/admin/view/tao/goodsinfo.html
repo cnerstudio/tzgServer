@@ -1,0 +1,255 @@
+<{include file="public/_meta"}>
+<title>商品列表</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		淘宝管理 <span class="c-gray en">&gt;</span> 商品列表 <{include
+		file="public/down"}> <a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a> <a class="btn btn-success radius r"
+			style="line-height: 1.6em; margin: 3px" href="./goodschart"
+			title="价格分布图">价格分布图</a>
+	</nav>
+	<div class="pd-20">
+		<div class="text-c">
+			<form action="">
+				<input type="text" class="input-text " style="width: 250px"
+					placeholder="<{$goodsname}>" id="" name="searchgoods" value="">
+				<input type="hidden" name='shopid' value=<{$shop}>> <input
+					type="hidden" name='cid' value=<{$cid}>> <input
+					type="hidden" name='staid' value=<{$staid}>>
+				<button type="submit" class="btn btn-success" id="" name="">
+					<i class="icon-search"></i> 搜商品
+				</button>
+			</form>
+		</div>
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr class="groupk">
+					<th>商品名字</th>
+					<th><select id='s1'> <{volist name="cidarr" id="ve"}>
+							<option value="?cid=<{$key}>&staid=<{$staid}>&cate=<{$cate}>"<{$key==$cid?'selected="selected"':''}>><{$ve}></option>
+							<{/volist}>
+					</select></th>
+					<th>价格</th>
+					<th>库存</th>
+					<th><select id='s2'> <{volist name="cate2" id="c1"}>
+							<option value="?staid=<{$staid}>&cid=<{$cid}>&cate=<{$key}>"<{$key==$cate?'selected="selected"':''}>
+								><{$c1}></option> <{/volist}>
+					</select></th>
+					<th>店铺</th>
+					<th>更新时间</th>
+					<th><select id='s3'> <{volist name="sta" id="vp"}>
+							<option value="?staid=<{$key}>&cid=<{$cid}>&cate=<{$cate}>"<{$key==$staid?'selected="selected"':''}>><{$vp}></option>
+							<{/volist}>
+					</select></th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<{volist name='data' id='vc'}>
+				<tr>
+					<td><{$vc.title}></td>
+					<td><{$vc.catename}></td>
+					<td><{$vc.reserve_price}></td>
+					<td><{$vc.num}></td>
+					<td><{$vc.state}></td>
+					<td>-</td>
+					<td><{$vc.updatetime}></td>
+					<span style='display: none'><{$result1[$vc.itemId]?$staid=$result1[$vc.itemId]:''}>
+						<td><{switch name="staid"}> <{case
+							value="110"}><{$vc.errormsg}><{/case}> <{case
+							value="1"}>已上架<{/case}> <{case value="2"}>已下架<{/case}> <{case
+							value="3"}>已售罄<{/case}> <{case value="4"}>已删除<{/case}> <{case
+							value="44"}>彻底删除<{/case}> <{case value="100"}>编辑中<{/case}> <{case
+							value="103"}>审核驳回<{/case}> <{case value="111"}>未上传<{/case}>
+							<{/switch}></td>
+				</tr>
+				<{/volist}>
+			</tbody>
+		</table>
+		<br />
+		<div>
+			<button class='btn btn-secondary radius  ml-20 batchadd'>上传</button>
+			<span><select id='shop'> <{volist name='shoparr'
+					id='v'}>
+					<option value='<{$key}>'<{$key==$shop?'selected="selected"':''}>
+						><{$v}></option> <{/volist}>
+			</select></span><span>上传条数(单日最大1200)：</span><input type='text' name='num'
+				value="<{$num}>" size="10"> <span><select id="sym">
+					<option value="1"<{$bol==1?'selected="selected"':''}> >+</option>
+					<option value="2"<{$bol==2?'selected="selected"':''}> >*</option>
+			</select></span><span><input type="text" name="neb" value='<{$svn}>' size="10"><span
+				style="font-size: 10px;">*当为加法时单位分</span></span>
+		</div>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray mt-10 ">
+		<{$data->render()}> <span class="r mt-15"> 列表总数:<strong> <{$data->total()}> </strong> 条 &emsp; <{volist
+			name="errData" id="vs"}> <{$vs.errormsg}> :<strong><{$vs.total}></strong>条&emsp;
+			<{/volist}> 
+		</span>
+	</div>
+	</div>
+	<div id="AAA" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="AAA-title">对话框标题</h3>
+					<a class="close" data-dismiss="modal" aria-hidden="true"
+						href="javascript:void();">×</a>
+				</div>
+				<div class="modal-body">
+					<p class="AAA-body">对话框内容…</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary btok">确定</button>
+					<button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="BBB" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title"></h3>
+				</div>
+				<div class="modal-body">
+					<p class='BBB-body'>对话框内容…</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn locat" data-dismiss="modal" aria-hidden="true">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="CCC" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content radius">
+				<div class="modal-header">
+					<h3 class="modal-title"></h3>
+				</div>
+				<div class="modal-body">
+					<p class='CCC-body'>
+						上架中,已用时<span id='time'>0秒</span>...
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+	<script>
+var url='../../api/pddapi/';
+$('.batchadd').on('click',function(){
+	var shopid=$('#shop option:selected').val();
+	if(shopid==0){
+		$('.BBB-body').text('请选择店铺！');
+		$('#BBB').modal('show');
+		return false;
+	}
+	$('.AAA-body').text('是否确定上架到当前店铺？');
+	$('.AAA-title').text('请确认');
+	$('#AAA').modal('show');	
+});
+$('.btok').on('click',function(){
+	var shopid=$('#shop option:selected').val();
+	var allnum=$('input[name="num"]').val();
+	var enb=$('input[name="neb"]').val();//基础加价
+	var sym=$('#sym option:selected').val();
+	if(allnum>1200 || allnum<1){
+		$('.BBB-body').text('请输入小于1200的数量');
+		$('#BBB').modal('show');
+        return false;
+	}
+	$('#AAA').modal('hide');
+	$('#CCC').modal('show');
+	t=0;num=0;success=0;error=0;
+	time=setInterval(function(){
+		t++;
+		if(t<60)
+			$('#time').text(t+'秒,已处理'+num+'个/'+(t/(num>0?num:1)).toFixed(1)+'s (成功:'+success+'|失败:'+error + ')');
+		else
+			$('#time').text((t/60).toFixed(2)+'分,已处理'+num+'个/'+(t/60/num).toFixed(2)+'min (成功:'+success+'|失败:'+error+')');
+	},1000)
+	GoodsUpload(shopid,allnum,enb,sym);
+});
+var t=0;
+var num=0;
+var success=0;
+var error=0;
+function GoodsUpload(shopid,allnum,enb,sym) {
+	$.ajax({
+		url:url+'GoodsUpload',
+		type:'POST',
+		data:'shop='+shopid+'&allnum='+allnum+'&num='+num+'&enb='+enb+'&sym='+sym+'&success='+success+'&error='+error,
+		dataType:'json',
+		success:function(a){				
+			if(a.result==1){//成功
+				success=a.success;
+				error=a.error;
+				if(++num<allnum){
+					GoodsUpload(shopid,allnum,enb,sym);
+					return;
+				}
+			}
+			$('#CCC').modal('hide');
+			clearInterval(time)
+			var timetest='';
+			if(t<60)
+				timetest=t+'秒';
+			else
+				timetest=(t/60).toFixed(2)+'分钟';
+			$('.BBB-body').text('上架成功：'+success+";上架失败："+error+' 用时:'+timetest);
+			$('#BBB').modal('show');
+			$('.locat').on('click',function(){
+				var ur=$('#s3 option:selected').val()
+				var shop=$('#shop option:selected').val()
+				var num=$('input[name="num"]').val()
+				var svn=$('input[name="neb"]').val()
+				var bol=$('#sym option:selected').val();
+				window.location.href=ur+'&shopid='+shop+'&value='+num+'&svn='+svn+'&bol='+bol
+			})
+		}
+	})	
+}
+$('#s1').on('change',function(){//跳转类目
+	var ur=$('#s1 option:selected').val()
+	var shop=$('#shop option:selected').val()
+	var num=$('input[name="num"]').val()
+	var svn=$('input[name="neb"]').val()
+	var bol=$('#sym option:selected').val();
+	window.location.href=ur+'&shopid='+shop+'&value='+num+'&svn='+svn+'&bol='+bol
+})
+$('#s2').on('change',function(){//跳转类目
+	var ur=$('#s2 option:selected').val()
+	var shop=$('#shop option:selected').val()
+	var num=$('input[name="num"]').val()
+	var svn=$('input[name="neb"]').val()
+	var bol=$('#sym option:selected').val();
+	window.location.href=ur+'&shopid='+shop+'&value='+num+'&svn='+svn+'&bol='+bol
+})
+$('#s3').on('change',function(){//跳转类目
+	var ur=$('#s3 option:selected').val()
+	var shop=$('#shop option:selected').val()
+	var num=$('input[name="num"]').val()
+	var svn=$('input[name="neb"]').val()
+	var bol=$('#sym option:selected').val();
+	window.location.href=ur+'&shopid='+shop+'&value='+num+'&svn='+svn+'&bol='+bol
+})
+</script>
+</body>
+</html>

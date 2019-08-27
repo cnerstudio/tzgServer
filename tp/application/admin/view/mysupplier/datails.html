@@ -1,0 +1,152 @@
+<{include file="public/_meta"}>
+<title>供应商管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		供应商管理 <span class="c-gray en">&gt;</span> 供应商详情 <a
+			class="btn btn-success radius r"
+			style="line-height: 1.6em; margin-top: 3px"
+			href="javascript:location.replace(location.href);" title="刷新"><i
+			class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+
+
+	<a href="sinfo" class="f-r mr-20 mb-5 mt-5"><button
+			class="btn btn-secondary-outline radius">返回上一页</button></a>
+	<div style="margin: 10px 20px;">
+		<table
+			class="table table-border table-bordered table-striped table-bg ">
+			<thead class="text-c">
+				<tr>
+					<th class="f-16 my200">选项</th>
+					<th class="f-16 ">值</th>
+				</tr>
+			</thead>
+			<tbody class="text-c">
+				<tr>
+					<td>供应商编码</td>
+					<td><{$data['id']}></td>
+				</tr>
+				<tr>
+					<td>供应商名字</td>
+					<td><{$data['name']}></td>
+				</tr>
+				<tr>
+					<td>供应商联系人</td>
+					<td><{$data['contacts']}></td>
+				</tr>
+				<tr>
+					<td>供应商联系电话</td>
+					<td><{$data['phone']}></td>
+				</tr>
+				<tr>
+					<td>所在省</td>
+					<td><{$data['province']}></td>
+				</tr>
+				<tr>
+					<td>所在市</td>
+					<td><{$data['city']}></td>
+				</tr>
+				<tr>
+					<td>品牌</td>
+					<td><{$data['brand']}></td>
+				</tr>
+				<tr>
+					<td>产品大类</td>
+					<td><{$pcate}></td>
+				</tr>
+				<tr>
+					<td>查询大类</td>
+					<td><{$searchidstr}></td>
+				</tr>
+				<tr>
+					<td>主营类目</td>
+					<td><{$data['mcate']}></td>
+				</tr>
+				<tr>
+					<td>保障</td>
+					<td><{$data['guarantee']}></td>
+				</tr>
+				<tr>
+					<td>商家类型</td>
+					<td><{$data['btype']}></td>
+				</tr>
+				<tr>
+					<td>状态</td>
+					<td><{switch name="$data['isdel']"}> <{case
+						value="0"}>未删除<{/case}> <{case value="1"}>已删除<{/case}> <{/switch}>
+					</td>
+				</tr>
+				<tr>
+					<td>收款姓名</td>
+					<td><{$data['payname']}></td>
+				</tr>
+				<tr>
+					<td>收款方式</td>
+					<td>支付宝</td>
+				</tr>
+				<tr>
+					<td>收款账号</td>
+					<td><{$data['alipay']}></td>
+				</tr>
+				<tr>
+					<td>累计销售</td>
+					<td>0</td>
+				</tr>
+				<tr>
+					<td>累计销量</td>
+					<td>0</td>
+				</tr>
+				<tr>
+					<td>累计利润</td>
+					<td>0</td>
+				</tr>
+				<tr>
+					<td>利润率</td>
+					<td>0</td>
+				</tr>
+				<tr>
+					<td>商品数量</td>
+					<td><{$data['priceamin']}></td>
+				</tr>
+				<tr>
+					<td>最高价</td>
+					<td><{$data['priceamax']}></td>
+				</tr>
+				<tr>
+					<td>最低价</td>
+					<td><{$data['pricedmax']}></td>
+				</tr>
+				<tr>
+					<td>平均价</td>
+					<td><{$data['priceavg']}></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray mt-40">
+		<!-- <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="icon-trash"></i> 批量删除</a>
+    <a href="javascript:;" onclick="user_add('550','','添加用户','user-add.html')" class="btn btn-primary radius"><i class="icon-plus"></i> 添加用户</a></span> -->
+
+		<!-- 底部按钮引用 -->
+		<{include file="public/bd"}>
+
+
+
+	</div>
+	</div>
+	<!--_footer 作为公共模版分离出去-->
+	<{include file="public/_footer"}>
+	<!--/_footer 作为公共模版分离出去-->
+
+	<!--请在下方写此页面业务相关的脚本-->
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+	<script type="text/javascript"
+		src="<{$Think.TKP}>/ui/lib/laypage/1.2/laypage.js"></script>
+
+</body>
+</html>

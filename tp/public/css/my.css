@@ -1,0 +1,56 @@
+@CHARSET "UTF-8";
+/* 后台id列宽 */
+.my40{
+	width:40px;
+}
+.my50{
+	width:50px;
+}
+.my60{
+	width:60px;
+}
+.my70{
+	width:70px;
+}
+.my80{
+	width:80px;
+}
+.my90{
+	width:90px;
+}
+.my45{
+	width:45px;
+}
+.my30{
+	width:30px;
+}
+.my20{
+	width:20px;
+}
+.my200{
+	width:200px;
+}
+.my120{
+	width:120px;
+}
+
+/* 分页样式 */
+ .pagination  li{
+	border:1px solid #6d7792;
+	width:50px;
+	height:30px;
+	float:left;
+	font-size:18px;
+	text-align:center;
+	line-height:30px;
+	margin-left:20px;
+	margin-top:10px;
+ 	font-size:16px;
+ 	
+}
+.pagination .active{/* 选择页面 */
+   background:#c0c0c0;
+  
+}
+
+
